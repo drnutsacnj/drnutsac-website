@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Dr. Nutsac Hacky Sacs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(20,20,20,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 40px;
+      border-bottom: 2px solid #c0392b;
+    }
+    .nav-logo img { height: 50px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #f0f0f0;
+      text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #c0392b; }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 1100;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: #f0f0f0;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: url('raj3.jpg') center center / cover no-repeat;
+      display: flex;
+      align-items: center;
+      padding: 120px 60px 60px;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(10,10,10,0.85) 40%, rgba(10,10,10,0.2));
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+    .hero-content h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .hero-content h1 span { color: #c0392b; }
+    .hero-content .slogan {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    .hero-content .cta-btn {
+      display: inline-block;
+      background: #c0392b;
+      color: #fff;
+      padding: 14px 36px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hero-content .cta-btn:hover { background: #a93226; transform: scale(1.04); }
+
+    /* HERO FLOATING IMAGE */
+    .hero-floating-wrap {
+      position: absolute;
+      right: 8%;
+      top: 22%;
+      z-index: 3;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid #c0392b;
+      box-shadow: 0 0 30px rgba(192,57,43,0.7), 0 0 70px rgba(192,57,43,0.4);
+      animation: floatBob 3.5s ease-in-out infinite;
+    }
+    .hero-floating-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+    @keyframes floatBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    /* SECTIONS SHARED */
+    section { padding: 80px 40px; }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+    .section-title span { color: #c0392b; }
+    .section-divider {
+      width: 60px; height: 4px;
+      background: #c0392b;
+      margin: 0 auto 40px;
+      border-radius: 2px;
+    }
+
+    /* GALLERY SLIDESHOW */
+    #gallery { background: #111; }
+    .slideshow-wrapper {
+      position: relative;
+      max-width: 860px;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(192,57,43,0.3);
+      background: #000;
+    }
+    .slideshow-track {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      background: #0a0a0a;
+    }
+    .slideshow-track img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+    .slideshow-track img.active { opacity: 1; }
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(192,57,43,0.75);
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      padding: 10px 18px;
+      cursor: pointer;
+      border-radius: 4px;
+      z-index: 10;
+      transition: background 0.2s;
+    }
+    .slide-btn:hover { background: #c0392b; }
+    .slide-btn.prev { left: 12px; }
+    .slide-btn.next { right: 12px; }
+    .slide-counter {
+      position: absolute;
+      bottom: 14px;
+      right: 18px;
+      background: rgba(0,0,0,0.65);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.95rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      z-index: 10;
+      letter-spacing: 1px;
+    }
+    .slide-dots {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 16px 0;
+      background: #0d0d0d;
+    }
+    .slide-dots span {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #555;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .slide-dots span.active { background: #c0392b; transform: scale(1.3); }
+
+    /* THE SACK */
+    #the-sack { background: #1a1a1a; }
+    .sack-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 50px;
+      max-width: 900px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .sack-logo img {
+      width: 160px;
+      filter: drop-shadow(0 0 16px rgba(192,57,43,0.5));
+    }
+    .sack-text { flex: 1; min-width: 260px; }
+    .sack-text p {
+      font-size: 1.05rem;
+      color: #ccc;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    .specs-table th, .specs-table td {
+      padding: 10px 16px;
+      border: 1px solid #333;
+      text-align: left;
+    }
+    .specs-table th {
+      background: #c0392b;
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .specs-table tr:nth-child(even) td { background: #222; }
+    .specs-table tr:nth-child(odd) td { background: #1a1a1a; }
+
+    /* SHOP */
+    #shop { background: #111; }
+    .shop-grid {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .shop-card {
+      background: #222;
+      border: 2px solid #333;
+      border-radius: 10px;
+      width: 260px;
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .shop-card:hover { transform: translateY(-6px); border-color: #c0392b; }
+    .shop-card .card-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      background: #1a1a1a;
+      display: block;
+      padding: 16px;
+    }
+    .shop-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 16px 0 4px;
+    }
+    .shop-card .price {
+      font-size: 1.3rem;
+      color: #c0392b;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .shop-card .buy-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      background: #c0392b;
+      color: #fff;
+      padding: 10px 28px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .shop-card .buy-btn:hover { background: #a93226; }
+
+    /* FOLLOW */
+    #follow { background: #1a1a1a; }
+    .social-grid {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .social-card {
+      background: #222;
+      border: 2px solid #333;
+      border-radius: 10px;
+      width: 200px;
+      padding: 30px 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #f0f0f0;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .social-card:hover { border-color: #c0392b; transform: translateY(-5px); }
+    .social-icon-box {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 14px;
+      color: #fff;
+    }
+    .social-icon-box.ig {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+    .social-icon-box.tt {
+      background: #000;
+      border: 2px solid #69C9D0;
+    }
+    .social-icon-box.fb {
+      background: #1877F2;
+    }
+    .social-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .social-card p {
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* VIDEO */
+    #watch { background: #111; }
+    .video-placeholder {
+      max-width: 760px;
+      margin: 0 auto;
+      aspect-ratio: 16/9;
+      background: #0a0a0a;
+      border: 2px dashed #c0392b;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: #555;
+    }
+    .video-placeholder i { font-size: 3.5rem; color: #c0392b; }
+    .video-placeholder p { font-size: 1rem; font-style: italic; }
+
+    /* COMING SOON BANNER */
+    #coming-soon {
+      background: #0d0d0d;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    .coming-banner {
+      display: inline-block;
+      border: 3px solid #c0392b;
+      border-radius: 12px;
+      padding: 30px 50px;
+      animation: glowPulse 2.5s ease-in-out infinite;
+      max-width: 700px;
+    }
+    .coming-banner h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+    .coming-banner h2 span { color: #c0392b; }
+    .coming-banner p {
+      font-size: 1rem;
+      color: #bbb;
+      line-height: 1.6;
+    }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 10px rgba(192,57,43,0.4), 0 0 30px rgba(192,57,43,0.2); }
+      50% { box-shadow: 0 0 25px rgba(192,57,43,0.9), 0 0 60px rgba(192,57,43,0.5); }
+    }
+
+    /* OUR STORY */
+    #our-story { background: #1a1a1a; }
+    .story-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .story-inner p {
+      font-size: 1.05rem;
+      color: #ccc;
+      line-height: 1.8;
+      margin-bottom: 30px;
+    }
+    .story-video-placeholder {
+      aspect-ratio: 16/9;
+      background: #0a0a0a;
+      border: 2px dashed #c0392b;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: #555;
+    }
+    .story-video-placeholder i { font-size: 3rem; color: #c0392b; }
+    .story-video-placeholder p { font-size: 1rem; font-style: italic; }
+
+    /* BOTTOM BANNER */
+    #bottom-banner {
+      background: linear-gradient(135deg, #1a0000, #0d0d0d);
+      padding: 60px 40px;
+      text-align: center;
+      border-top: 3px solid #c0392b;
+    }
+    #bottom-banner h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+    #bottom-banner h2 span { color: #c0392b; }
+    #bottom-banner p {
+      font-size: 1rem;
+      color: #bbb;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0d0d0d;
+      border-top: 2px solid #c0392b;
+      padding: 30px 40px;
+      text-align: center;
+    }
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+    .footer-social a {
+      color: #aaa;
+      font-size: 1.6rem;
+      transition: color 0.2s, transform 0.2s;
+      text-decoration: none;
+    }
+    .footer-social a:hover { color: #c0392b; transform: scale(1.2); }
+    footer p {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(10,10,10,0.98);
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        z-index: 1050;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.6rem; }
+      .hero-content h1 { font-size: 3rem; }
+      .hero-floating-wrap { width: 160px; height: 160px; right: 4%; top: 18%; }
+      .hero { padding: 100px 24px 60px; }
+      .sack-inner { flex-direction: column; align-items: center; }
+      .coming-banner { padding: 24px 20px; }
+      .coming-banner h2 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <a href="#"><img src="logo.png" alt="Dr. Nutsac Logo"></a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#the-sack">The Sack</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#follow">Follow</a></li>
+      <li><a href="#watch">Watch</a></li>
+      <li><a href="#our-story">Our Story</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Dr. <span>Nutsac</span><br>Hacky Sacs</h1>
+      <p class="slogan">"Handle with care, kick with confidence.<br>Jersey Shore's favorite DR."</p>
+      <a href="#shop" class="cta-btn">Shop Now</a>
+    </div>
+    <div class="hero-floating-wrap">
+      <img src="hacky.png" alt="Dr. Nutsac Hacky Sac">
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <h2 class="section-title">The <span>Gallery</span></h2>
+    <div class="section-divider"></div>
+    <div class="slideshow-wrapper">
+      <div class="slideshow-track" id="slideshowTrack">
+        <img src="raj1.jpg"      alt="Raj 1"      class="active">
+        <img src="raj2.jpg"      alt="Raj 2">
+        <img src="raj4.png"      alt="Raj 4">
+        <img src="mra1.jpg"      alt="MRA 1">
+        <img src="mara1.jpg"     alt="Mara 1">
+        <img src="anthony1.jpg"  alt="Anthony 1">
+        <img src="anthony2.jpg"  alt="Anthony 2">
+        <img src="anthony3.jpg"  alt="Anthony 3">
+        <img src="doublesac.png" alt="Double Sac">
+        <img src="group1.png"    alt="Group 1">
+        <img src="roman1.png"    alt="Roman 1">
+        <img src="roman2.png"    alt="Roman 2">
+        <img src="ryan1.png"     alt="Ryan 1">
+        <img src="ryan2.png"     alt="Ryan 2">
+        <img src="ryan3.png"     alt="Ryan 3">
+        <img src="ryan4.png"     alt="Ryan 4">
+        <img src="nutsacsuede.jpg" alt="Nutsac Suede">
+      </div>
+      <button class="slide-btn prev" id="slidePrev">&#8249;</button>
+      <button class="slide-btn next" id="slideNext">&#8250;</button>
+      <div class="slide-counter" id="slideCounter">1 / 17</div>
+    </div>
+    <div class="slide-dots" id="slideDots"></div>
+  </section>
+
+  <!-- THE SACK -->
+  <section id="the-sack">
+    <h2 class="section-title">The <span>Sack</span></h2>
+    <div class="section-divider"></div>
+    <div class="sack-inner">
+      <div class="sack-logo">
+        <img src="logo.png" alt="Dr. Nutsac Logo">
+      </div>
+      <div class="sack-text">
+        <p>
+          Handcrafted with premium suede leather, the Dr. Nutsac Hacky Sac is engineered
+          for serious footbaggers and casual kickers alike. The 8-panel construction gives
+          it a perfect round shape and predictable flight, while the custom plastic pellet
+          and sand fill delivers just the right weight for stalls, kicks, and combos.
+          Built tough. Kicks smooth. This is Jersey Shore's favorite sac.
+        </p>
+        <table class="specs-table">
+          <thead>
+            <tr><th>Spec</th><th>Detail</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Material</td><td>Premium Suede Leather</td></tr>
+            <tr><td>Panels</td><td>8-Panel Construction</td></tr>
+            <tr><td>Fill</td><td>Plastic Pellets + Sand</td></tr>
+            <tr><td>Diameter</td><td>1 – 1.5 inches</td></tr>
+            <tr><td>Weight</td><td>50 – 60g (avg. 54g)</td></tr>
+            <tr><td>Colors</td><td>White / Red</td></tr>
+            <tr><td>Origin</td><td>Jersey Shore, NJ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop">
+    <h2 class="section-title">The <span>Shop</span></h2>
+    <div class="section-divider"></div>
+    <div class="shop-grid">
+      <div class="shop-card">
+        <img src="nutsacsuede.jpg" alt="Single Sac" class="card-img">
+        <h3>Single Sac</h3>
+        <div class="price">$15</div>
+        <a href="#" class="buy-btn">Buy Now</a>
+      </div>
+      <div class="shop-card">
+        <img src="doublesac.png" alt="Double Sac Deal" class="card-img">
+        <h3>Double Sac Deal</h3>
+        <div class="price">2 for $25</div>
+        <a href="#" class="buy-btn">Buy Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOLLOW THE DR. -->
+  <section id="follow">
+    <h2 class="section-title">Follow <span>The Dr.</span></h2>
+    <div class="section-divider"></div>
+    <div class="social-grid">
+
+     <a href="https://www.instagram.com/drnutsac" target="_blank" class="social-icon instagram">
+        <div class="social-icon-box ig">
+          <i class="fa-brands fa-instagram"></i>
+        </div>
+        <h3>Instagram</h3>
+        <p>@drnutsac</p>
+      </a>
+
+      <a href="https://www.tiktok.com/@drnutsac" target="_blank" class="social-icon tiktok">
+          <i class="fa-brands fa-tiktok"></i>
+        </div>
+        <h3>TikTok</h3>
+        <p>@drnutsac</p>
+      </a>
+
+      <a href="https://www.facebook.com/share/197D4Uz8vS/?mibextid=wwXIfr" target="_blank" class="social-card">
+        <div class="social-icon-box fb">
+          <i class="fa-brands fa-facebook"></i>
+        </div>
+        <h3>Facebook</h3>
+        <p>Dr. Nutsac</p>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- WATCH THE SHRED -->
+  <section id="watch">
+    <h2 class="section-title">Watch <span>The Shred</span></h2>
+    <div class="section-divider"></div>
+    <div class="video-placeholder">
+      <i class="fa-solid fa-circle-play"></i>
+      <p>Video coming soon — kids shredding the sac 🔥</p>
+    </div>
+  </section>
+
+  <!-- COMING SOON BANNER -->
+  <section id="coming-soon">
+    <div class="coming-banner">
+      <h2>More Styles & <span>Merch</span> Coming Soon</h2>
+      <p>
+        Stay tuned for an expanding lineup of colors and panel variations —
+        more ways to rep your sack game is on the way! 🔥
+      </p>
+    </div>
+  </section>
+
+  <!-- OUR STORY -->
+  <section id="our-story">
+    <h2 class="section-title">Our <span>Story</span></h2>
+    <div class="section-divider"></div>
+    <div class="story-inner">
+      <p>
+        Dr. Nutsac started on the beaches of the Jersey Shore — a passion project
+        born from a love of hacky sack and the drive to make the best sac on the block.
+        Every sac is handcrafted with care, built to perform, and made to last.
+        From the shore to your feet — this is the real deal.
+      </p>
+      <div class="story-video-placeholder">
+        <i class="fa-solid fa-circle-play"></i>
+        <p>Our Story video coming soon 🎬</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM BANNER -->
+  <section id="bottom-banner">
+    <h2>Drops. <span>Merch.</span> New Nutsacs.</h2>
+    <p>
+      Big things are coming — new drops, fresh merch, and more sac styles on the way.
+      Follow us on social and stay locked in. You don't want to miss this. 🔥
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/drnutsac" target="_blank" title="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://www.tiktok.com/@drnutsac" target="_blank" title="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://www.facebook.com/share/197D4Uz8vS/?mibextid=wwXIfr" target="_blank" title="Facebook">
+        <i class="fa-brands fa-facebook"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 Dr. Nutsac Hacky Sacs. All rights reserved. | Jersey Shore, NJ</p>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      // HAMBURGER MENU
+      const hamburger = document.getElementById('hamburger');
+      const navLinks  = document.getElementById('nav-links');
+      hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('open');
+        navLinks.classList.toggle('open');
+      });
+      navLinks.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          hamburger.classList.remove('open');
+          navLinks.classList.remove('open');
+        });
+      });
+
+      // SLIDESHOW
+      const track   = document.getElementById('slideshowTrack');
+      const slides  = Array.from(track.querySelectorAll('img'));
+      const counter = document.getElementById('slideCounter');
+      const dotsBox = document.getElementById('slideDots');
+      let current   = 0;
+
+      // Build dots
+      slides.forEach(function (_, i) {
+        const dot = document.createElement('span');
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', function () { goTo(i); });
+        dotsBox.appendChild(dot);
+      });
+
+      function goTo(index) {
+        slides[current].classList.remove('active');
+        dotsBox.children[current].classList.remove('active');
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dotsBox.children[current].classList.add('active');
+        counter.textContent = (current + 1) + ' / ' + slides.length;
+      }
+
+      document.getElementById('slidePrev').addEventListener('click', function () { goTo(current - 1); });
+      document.getElementById('slideNext').addEventListener('click', function () { goTo(current + 1); });
+
+      // Auto-advance every 4 seconds
+      setInterval(function () { goTo(current + 1); }, 4000);
+
+    });
+  </script>
+
+</body>
+</html>
