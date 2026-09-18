@@ -372,26 +372,31 @@
       margin: 0 auto 14px;
       color: #fff;
     }
-    .social-icon-box.ig {
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-    }
-    .social-icon-box.tt {
-      background: #000;
-      border: 2px solid #69C9D0;
-    }
-    .social-icon-box.fb {
-      background: #1877F2;
-    }
-    .social-card h3 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .social-card p {
-      font-size: 0.85rem;
-      color: #aaa;
+   .social-icon-box.ig {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+.social-icon-box.tiktok {
+  background: #000;
+  border: 2px solid #25f4ee;
+}
+.social-icon-box.fb {
+  background: #1877f2;
+}
+.social-name {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.social-handle {
+  display: block;
+  font-size: 0.9rem;
+  color: #999;
+}
     }
 
     /* VIDEO */
@@ -668,36 +673,41 @@
   </section>
 
   <!-- FOLLOW THE DR. -->
-  <section id="follow">
-    <h2 class="section-title">Follow <span>The Dr.</span></h2>
-    <div class="section-divider"></div>
-    <div class="social-grid">
+<section id="follow">
+  <h2 class="section-title">FOLLOW THE <span>DR.</span></h2>
+  <div class="section-divider"></div>
 
-     <a href="https://www.instagram.com/drnutsac" target="_blank" class="social-icon instagram">
-        <div class="social-icon-box ig">
-          <i class="fa-brands fa-instagram"></i>
-        </div>
-        <h3>Instagram</h3>
-        <p>@drnutsac</p>
-      </a>
+  <div class="social-grid">
 
-      <a href="https://www.tiktok.com/@drnutsac" target="_blank" class="social-icon tiktok">
-          <i class="fa-brands fa-tiktok"></i>
-        </div>
-        <h3>TikTok</h3>
-        <p>@drnutsac</p>
-      </a>
+    <!-- INSTAGRAM -->
+    <a href="https://www.instagram.com/dr_nutsac/" target="_blank" class="social-card">
+      <div class="social-icon-box ig">
+        <i class="fa-brands fa-instagram"></i>
+      </div>
+      <span class="social-name">Instagram</span>
+      <span class="social-handle">@dr_nutsac</span>
+    </a>
 
-      <a href="https://www.facebook.com/share/197D4Uz8vS/?mibextid=wwXIfr" target="_blank" class="social-card">
-        <div class="social-icon-box fb">
-          <i class="fa-brands fa-facebook"></i>
-        </div>
-        <h3>Facebook</h3>
-        <p>Dr. Nutsac</p>
-      </a>
+    <!-- TIKTOK -->
+    <a href="https://www.tiktok.com/@drnutsac" target="_blank" class="social-card">
+      <div class="social-icon-box tiktok">
+        <i class="fa-brands fa-tiktok"></i>
+      </div>
+      <span class="social-name">TikTok</span>
+      <span class="social-handle">@drnutsac</span>
+    </a>
 
-    </div>
-  </section>
+    <!-- FACEBOOK -->
+    <a href="https://www.facebook.com/share/197D4Uz8vS/?mibextid=wwXIfr" target="_blank" class="social-card">
+      <div class="social-icon-box fb">
+        <i class="fa-brands fa-facebook-f"></i>
+      </div>
+      <span class="social-name">Facebook</span>
+      <span class="social-handle">Dr. Nutsac</span>
+    </a>
+
+  </div>
+</section>
 
   <!-- WATCH THE SHRED -->
   <section id="watch">
